@@ -1,0 +1,51 @@
+# Extract version
+function(c3_extract_version)
+    file(READ "${CMAKE_CURRENT_LIST_DIR}/c3/include/c3/version.h" file_contents)
+
+    string(REGEX MATCH "C3_VERSION_MAJOR ([0-9]+)" _ "${file_contents}")
+    if(NOT CMAKE_MATCH_COUNT EQUAL 1)
+        message(FATAL_ERROR "Could not extract major version number")
+    endif()
+    set(major_version ${CMAKE_MATCH_1})
+
+    string(REGEX MATCH "C3_VERSION_MINOR ([0-9]+)" _ "${file_contents}")
+    if(NOT CMAKE_MATCH_COUNT EQUAL 1)
+        message(FATAL_ERROR "Could not extract minor version number")
+    endif()
+    set(minor_version ${CMAKE_MATCH_1})
+    
+    string(REGEX MATCH "C3_VERSION_PATCH ([0-9]+)" _ "${file_contents}")
+    if(NOT CMAKE_MATCH_COUNT EQUAL 1)
+        message(FATAL_ERROR "Could not extract patch version number")
+    endif()
+    set(patch_version ${CMAKE_MATCH_1})
+
+    set(C3_VERSION_MAJOR ${major_version} PARENT_SCOPE)
+    set(C3_VERSION_MINOR ${minor_version} PARENT_SCOPE)
+    set(C3_VERSION_PATCH ${patch_version} PARENT_SCOPE)
+    set(C3_VERSION "${major_version}.${minor_version}.${patch_version}" PARENT_SCOPE)
+endfunction()
+
+# Turn on warnings on the given target
+function(c3_enable_warnings target_name)
+    get_target_property(type ${target_name} TYPE)
+    if (NOT ${type} STREQUAL "INTERFACE_LIBRARY")
+        if(MSVC)
+            target_compile_options(${target_name} PRIVATE /W4)
+        else()
+            target_compile_options(${target_name} PRIVATE -Wall -Wextra -Werror)
+        endif()
+    endif()
+endfunction()
+
+# Turn off warnings on the given target 
+function(c3_disable_warnings target_name)
+    get_target_property(type ${target_name} TYPE)
+    if (NOT ${type} STREQUAL "INTERFACE_LIBRARY")
+        if(MSVC)
+            target_compile_options(${target_name} PRIVATE /W0)
+        else()
+            target_compile_options(${target_name} PRIVATE -w)
+        endif()
+    endif()
+endfunction()
