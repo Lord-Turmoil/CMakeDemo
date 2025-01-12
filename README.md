@@ -4,7 +4,7 @@
 
 ---
 
-Repository for [Modern C++ Project with CMake](https://www.tonys-studio.top/posts/Modern-C-Project-with-CMake/) ([Backup](https://lord-turmoil.github.io/posts/Modern-C-Project-with-CMake/)).
+Repository for [Modern C++ Project with CMake](https://blog.tonys-studio.top/posts/Modern-C-Project-with-CMake/) ([Backup](https://lord-turmoil.github.io/posts/Modern-C-Project-with-CMake/)).
 
 ## Project Structure
 
